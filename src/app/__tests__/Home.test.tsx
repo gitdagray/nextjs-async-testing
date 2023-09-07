@@ -67,19 +67,17 @@ describe('Home', () => {
     })
 
     it('should not update a todo if the request fails', async () => {
-
+        server.use(
+            rest.put('/todos/:id', (req, res, ctx) => {
+                return res(ctx.status(400))
+            })
+        )
         render(<Home />) // ARRANGE
 
         // ACT
         const checkboxArray = await screen.findAllByRole('checkbox') as HTMLInputElement[]
         const checkbox = checkboxArray[0]
         expect(checkbox.checked).toBeFalsy() // ASSERT 
-
-        server.use(
-            rest.put(`/todos/${checkbox.id}`, (req, res, ctx) => {
-                return res(ctx.status(400))
-            })
-        ) // ARRANGE
 
         await userEvent.click(checkbox) // ACT
 
@@ -103,17 +101,12 @@ describe('Home', () => {
     })
 
     it('should not delete a todo if the request fails', async () => {
-        render(<Home />) // ARRANGE
-
-        const checkboxArray = await screen.findAllByRole('checkbox') as HTMLInputElement[]
-        const checkbox = checkboxArray[0]
-        expect(checkbox).toBeInTheDocument() // ASSERT 
-
         server.use(
-            rest.delete(`/todos/${checkbox.id}`, (req, res, ctx) => {
+            rest.delete('/todos/:id', (req, res, ctx) => {
                 return res(ctx.status(400))
             })
-        ) // ARRANGE
+        )
+        render(<Home />) // ARRANGE
 
         // ACT
         const buttons = await screen.findAllByTestId('delete-button')

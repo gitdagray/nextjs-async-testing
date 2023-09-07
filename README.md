@@ -29,7 +29,7 @@
 
 ### Description
 
-📺 [YouTube Video]() for this repository.
+📺 [YouTube Video](https://youtu.be/k0LPNKWCxx0) for this repository.
 
 ### 📚 References
 - 🔗 [Next.js Official Site](https://nextjs.org/)
